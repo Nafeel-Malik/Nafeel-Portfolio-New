@@ -1,0 +1,28 @@
+PHASE — Global Cursor-Reactive Ambient Glow — React + Anime.js/CSS
+
+Context: Muhammad Nafeel's portfolio SPA — "Depth Corridor" cinematic scroll design, dark near-black background (#0A0A0A), electric cyan-blue accent (#00D9FF). Hero, About, and nav are built with the usePinnedSection scroll-driven camera-push system. Goal: add a cursor-reactive ambient glow effect across the ENTIRE site (not per-section) — a soft radial gradient blob in the accent cyan that follows mouse movement with a slight lag/easing, similar to a "heat ripple" effect built previously for another project, re-themed to this portfolio's cyan palette.
+
+Task:
+
+1. Build ONE global ambient glow component (e.g. CursorGlow.jsx) mounted once at the App root level (not per-section) — a fixed-position radial gradient blob (accent cyan #00D9FF fading to transparent, blurred, low opacity ~15-25%) that sits behind all page content (low z-index, but above the plain background) and follows the mouse position across the ENTIRE viewport height, not reset or restarted as the user scrolls between sections.
+
+2. Movement: use requestAnimationFrame + linear interpolation (lerp) between the glow's current position and the target mouse position each frame, so it trails smoothly behind the cursor rather than snapping instantly — this lag is what sells the "alive" feeling. Reasonable lerp factor (~0.08-0.12) for a noticeable but not sluggish trail.
+
+3. Since the page uses Lenis smooth scroll and scroll-driven pinned sections, make sure this glow component tracks mouse position in VIEWPORT coordinates (mousemove clientX/clientY) and is positioned with `position: fixed`, so it stays correctly aligned with the cursor regardless of scroll position or which pinned section is currently active — it should feel like a single continuous presence throughout the whole scroll journey, not something that resets or jumps per section.
+
+4. Layering: confirm the glow sits behind all text/content/cards (low z-index) but above the flat background color, and doesn't interfere with the blur/scale effects already applied to Hero/About content during their scroll transitions — test this carefully given the earlier bug where scroll-driven blur states got stuck; this glow effect must not introduce a similar z-index or stacking-context conflict.
+
+5. Touch/mobile fallback: there's no cursor on touch devices, so mousemove will never fire. On touch devices (detect via matchMedia '(hover: hover) and (pointer: fine)' or similar), either disable the glow entirely, or replace it with a fixed, static, subtle ambient glow positioned centrally (no motion) so mobile users still get some ambient depth without a broken/invisible effect.
+
+6. Respect prefers-reduced-motion: if set, either disable the glow's smooth-follow motion (snap to position instantly instead of lerping, or just show a static centered glow) rather than fully removing the visual — use judgment on which feels better, but don't ignore this setting.
+
+7. Performance: throttle appropriately (already achieved via rAF), and confirm this doesn't cause jank when combined with the existing scroll-driven pinned-section calculations — these are two separate animation systems running simultaneously (scroll-position-driven blur/scale, and mouse-position-driven glow), make sure they don't fight for the same rAF loop inefficiently (ideally share one rAF loop if both are doing frame-based updates, rather than two competing loops).
+
+8. Intensity: keep this genuinely subtle and ambient — it should read as "the page has depth and life" not "there's a bright blob following my cursor." Err on the side of lower opacity/larger blur radius rather than a sharp, obvious circle.
+
+After building, tell me:
+- Exact files created/modified
+- Confirm the glow follows the cursor smoothly across the WHOLE page (Hero, About, Projects, Contact) as one continuous element, not reset per section
+- Confirm it doesn't interfere with or reintroduce the earlier stuck-blur scroll bug
+- Confirm touch/mobile fallback and prefers-reduced-motion are both handled
+- Describe how it feels/looks in practice

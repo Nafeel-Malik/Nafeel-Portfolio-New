@@ -1,0 +1,281 @@
+.contact {
+  position: relative;
+  isolation: isolate;
+  padding: calc(var(--nav-height) + 2.5rem) var(--page-pad-x)
+    max(4.5rem, calc(3rem + env(safe-area-inset-bottom, 0px)));
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+.contact__glow {
+  position: absolute;
+  top: 28%;
+  left: 72%;
+  z-index: 0;
+  width: min(48vw, 28rem);
+  height: min(48vw, 28rem);
+  background: radial-gradient(circle, rgba(0, 217, 255, 0.1), transparent 66%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.contact__inner {
+  position: relative;
+  z-index: 1;
+  width: var(--content-max);
+  max-width: 100%;
+  margin-inline: auto;
+  transform-origin: 50% 30%;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact__inner {
+    will-change: auto;
+  }
+}
+
+.contact__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: clamp(1.75rem, 4vw, 3.5rem);
+  align-items: start;
+  margin-top: 1.6rem;
+}
+
+.contact__bio {
+  max-width: 34rem;
+  font-size: clamp(0.95rem, 1.45vw, 1.08rem);
+  line-height: 1.75;
+  color: #c8c8c8;
+}
+
+.contact__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.45rem;
+}
+
+.contact__pill {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  min-height: var(--touch-min);
+  max-width: 100%;
+  padding: 0.55rem 0.9rem;
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: clamp(0.68rem, 0.62rem + 0.3vw, 0.72rem);
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--color-text-muted);
+  background: rgba(20, 20, 20, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  transition:
+    color 200ms var(--ease-out),
+    border-color 200ms var(--ease-out),
+    background 200ms var(--ease-out),
+    transform 200ms var(--ease-out);
+}
+
+.contact__pill--button {
+  cursor: pointer;
+}
+
+.contact__pill span,
+.contact__pill-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contact__pill-label--short {
+  display: none;
+}
+
+.contact__pill:hover,
+.contact__pill:focus-visible,
+.contact__pill.is-copied {
+  color: var(--color-accent);
+  background: var(--color-accent-soft);
+  border-color: rgba(0, 217, 255, 0.45);
+}
+
+.contact__form {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem 1.25rem 1.35rem;
+  background: var(--color-surface);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.15rem;
+}
+
+.contact__field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.contact__field label {
+  font-family: var(--font-display);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+.contact__field input,
+.contact__field textarea {
+  width: 100%;
+  min-height: var(--touch-min);
+  padding: 0.75rem 0.95rem;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  background: rgba(10, 10, 10, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  outline: none;
+  transition:
+    border-color 200ms var(--ease-out),
+    box-shadow 200ms var(--ease-out),
+    background 200ms var(--ease-out);
+}
+
+.contact__field textarea {
+  min-height: 8.5rem;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.contact__field input::placeholder,
+.contact__field textarea::placeholder {
+  color: #6a6a6a;
+}
+
+.contact__field input:hover,
+.contact__field textarea:hover {
+  border-color: rgba(0, 217, 255, 0.28);
+}
+
+.contact__field input:focus-visible,
+.contact__field textarea:focus-visible {
+  border-color: rgba(0, 217, 255, 0.55);
+  background: rgba(10, 10, 10, 0.9);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+
+.contact__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem 1.1rem;
+  align-items: center;
+  margin-top: 0.35rem;
+}
+
+.contact__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--touch-min);
+  padding: 0.85rem 1.55rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #041016;
+  background: var(--color-accent);
+  box-shadow: 0 0 24px rgba(0, 217, 255, 0.28);
+  cursor: pointer;
+  transition:
+    transform 200ms var(--ease-out),
+    background 200ms var(--ease-out),
+    box-shadow 200ms var(--ease-out);
+}
+
+.contact__submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 32px rgba(0, 217, 255, 0.42);
+}
+
+.contact__submit:active {
+  transform: translateY(0);
+}
+
+.contact__status {
+  min-height: 1.25rem;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  opacity: 0;
+  transition: opacity 200ms var(--ease-out);
+}
+
+.contact__status.is-visible {
+  opacity: 1;
+  color: var(--color-accent);
+}
+
+@media (max-width: 900px) {
+  .contact {
+    padding-top: calc(var(--nav-height) + 1.5rem);
+  }
+
+  .contact__glow {
+    top: 18%;
+    left: 50%;
+  }
+
+  .contact__layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 1.25rem;
+  }
+
+  .contact__info {
+    text-align: center;
+  }
+
+  .contact__bio {
+    margin-inline: auto;
+  }
+
+  .contact__pills {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact__pill-label--full {
+    display: none;
+  }
+
+  .contact__pill-label--short {
+    display: inline;
+  }
+
+  .contact__form {
+    padding: 1.05rem 0.95rem 1.15rem;
+  }
+
+  .contact__submit {
+    width: 100%;
+  }
+
+  .contact__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .contact__status {
+    text-align: center;
+  }
+}
+
+@media (hover: none) {
+  .contact__submit:hover {
+    transform: none;
+  }
+}

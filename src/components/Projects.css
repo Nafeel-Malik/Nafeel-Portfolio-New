@@ -1,0 +1,422 @@
+.projects {
+  position: relative;
+  display: grid;
+  isolation: isolate;
+  min-height: 100%;
+  /* Keep the sticky frame filled without overflowing the bottom edge. */
+  padding: calc(var(--nav-height) + 0.55rem) var(--page-pad-x) 1.1rem;
+  overflow: visible;
+  place-items: center;
+}
+
+.projects__veil {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--color-bg);
+  pointer-events: none;
+}
+
+.projects__glow {
+  position: absolute;
+  top: 30%;
+  left: 58%;
+  z-index: 0;
+  width: min(52vw, 30rem);
+  height: min(52vw, 30rem);
+  background: radial-gradient(circle, rgba(0, 217, 255, 0.09), transparent 66%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.projects__stage {
+  position: relative;
+  z-index: 1;
+  width: var(--content-max);
+  max-width: 100%;
+  max-height: calc(100dvh - var(--nav-height) - 1.4rem);
+  transform-origin: 50% 40%;
+  overflow: visible;
+  will-change: transform, opacity;
+}
+
+.projects.is-exited {
+  pointer-events: none;
+}
+
+.projects.is-exited .projects__glow {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.projects.is-exited .projects__stage {
+  will-change: auto;
+}
+
+.projects__intro {
+  margin-bottom: 0.75rem;
+}
+
+.projects__subtitle {
+  max-width: 40rem;
+  margin-top: 0.45rem;
+  font-size: clamp(0.86rem, 1.3vw, 1rem);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+/*
+  Do NOT put `perspective` on the grid itself — Chromium forces
+  overflow-x: clip on perspectived elements, which cuts card glows
+  on the right edge (measured: cardRight > gridRight).
+*/
+.projects__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.65rem;
+  padding: 0.65rem 0.85rem;
+  margin: 0;
+  overflow: visible;
+  perspective: none;
+}
+
+.project-card {
+  position: relative;
+  z-index: 0;
+  min-width: 0;
+  transform-origin: 50% 80%;
+  border-radius: 1.15rem;
+  will-change: transform, opacity;
+  transition: box-shadow 280ms var(--ease-out);
+}
+
+.project-card:hover,
+.project-card:focus-within {
+  z-index: 10;
+  /* Glow on the outer card so overflow:hidden on __inner cannot clip it. */
+  box-shadow: 0 12px 36px rgba(0, 217, 255, 0.16);
+}
+
+.project-card__inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.15rem;
+  transition:
+    transform 280ms var(--ease-out),
+    border-color 280ms var(--ease-out);
+}
+
+.project-card__inner:hover,
+.project-card__inner:focus-within {
+  border-color: var(--color-accent);
+  transform: translateY(-7px) scale(1.015);
+}
+
+.project-card__media {
+  position: relative;
+  height: clamp(3.75rem, 9.5vh, 5.25rem);
+  overflow: hidden;
+  background: #101010;
+}
+
+.project-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-card__media--placeholder {
+  display: grid;
+  background:
+    radial-gradient(circle at 30% 35%, rgba(0, 217, 255, 0.18), transparent 42%),
+    radial-gradient(circle at 80% 80%, rgba(0, 217, 255, 0.08), transparent 40%),
+    linear-gradient(135deg, #121212, #1a1a1a 55%, #101010);
+  place-items: center;
+}
+
+.project-card__glyph {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.08em;
+  color: rgba(0, 217, 255, 0.32);
+  animation: project-glyph 5.5s var(--ease-out) infinite;
+}
+
+.project-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 0.7rem 0.85rem 0.8rem;
+}
+
+.project-card__category {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--color-accent);
+}
+
+.project-card__title {
+  margin-top: 0.35rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.02rem, 1.6vw, 1.22rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  overflow-wrap: anywhere;
+}
+
+.project-card__copy {
+  display: -webkit-box;
+  margin-top: 0.35rem;
+  overflow: hidden;
+  font-size: clamp(0.78rem, 1.1vw, 0.84rem);
+  line-height: 1.45;
+  color: #bdbdbd;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.project-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+  list-style: none;
+}
+
+.project-card__tags li {
+  padding: 0.22rem 0.55rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+}
+
+.project-card__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.85rem;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 0.55rem;
+}
+
+.project-card__link {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  min-height: 2.25rem;
+  padding: 0.15rem 0;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text);
+  transition: color 200ms var(--ease-out);
+}
+
+.project-card__link:hover,
+.project-card__link:focus-visible {
+  color: var(--color-accent);
+}
+
+.project-card__private {
+  display: inline-flex;
+  gap: 0.38rem;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.22rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+}
+
+.project-card--featured .project-card__media {
+  height: clamp(4.75rem, 13vh, 6.5rem);
+}
+
+.project-card--featured .project-card__title {
+  font-size: clamp(1.1rem, 2.1vw, 1.65rem);
+}
+
+.project-card--featured .project-card__copy {
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  font-size: clamp(0.82rem, 1.2vw, 0.9rem);
+}
+
+@keyframes project-glyph {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-4px);
+  }
+}
+
+@media (min-width: 720px) {
+  .projects__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .project-card--featured {
+    grid-column: 1 / -1;
+  }
+
+  .project-card--featured .project-card__inner {
+    display: grid;
+    grid-template-columns: minmax(min(16rem, 100%), 0.9fr) minmax(0, 1.2fr);
+  }
+
+  .project-card--featured .project-card__media {
+    height: 100%;
+    min-height: 8rem;
+  }
+}
+
+@media (min-width: 1100px) {
+  .projects__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .project-card--featured {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 900px) {
+  .projects {
+    align-items: start;
+  }
+
+  .projects__intro {
+    text-align: center;
+  }
+
+  .projects__subtitle {
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 719px) {
+  .projects {
+    padding-top: calc(var(--nav-height) + 0.55rem);
+    padding-bottom: 2rem;
+  }
+
+  .projects__intro {
+    margin-bottom: 0.95rem;
+  }
+
+  .projects__grid {
+    gap: 0.75rem;
+    padding: 0.75rem;
+    perspective: none;
+  }
+
+  .project-card__media {
+    height: 5.6rem;
+  }
+
+  .project-card--featured .project-card__media {
+    height: 6.4rem;
+  }
+
+  .project-card__copy {
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+
+  .project-card--featured .project-card__copy {
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+  }
+
+  .project-card__body {
+    padding: 0.8rem 0.85rem 0.9rem;
+  }
+
+  .project-card__inner:hover,
+  .project-card__inner:focus-within {
+    transform: translateY(-3px) scale(1.005);
+  }
+
+  .projects__stage {
+    will-change: transform, opacity;
+  }
+}
+
+@media (min-width: 720px) and (max-width: 899px) {
+  .project-card--featured .project-card__inner {
+    grid-template-columns: minmax(12rem, 0.85fr) minmax(0, 1.15fr);
+  }
+
+  .project-card--featured .project-card__media {
+    min-height: 8.5rem;
+  }
+}
+
+@media (min-width: 720px) and (max-height: 820px) {
+  .projects__intro {
+    margin-bottom: 0.55rem;
+  }
+
+  .project-card--featured .project-card__media {
+    min-height: 7.25rem;
+  }
+
+  .project-card__media {
+    height: clamp(3.8rem, 10vh, 5rem);
+  }
+}
+
+@media (hover: none) {
+  .project-card:hover,
+  .project-card:focus-within {
+    z-index: 0;
+    box-shadow: none;
+  }
+
+  .project-card__inner:hover,
+  .project-card__inner:focus-within {
+    border-color: rgba(255, 255, 255, 0.08);
+    transform: none;
+  }
+
+  .project-card:focus-within .project-card__inner {
+    border-color: var(--color-accent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card__glyph {
+    animation: none;
+  }
+
+  .project-card,
+  .projects__stage {
+    will-change: auto;
+  }
+
+  .project-card__inner:hover,
+  .project-card__inner:focus-within {
+    transform: none;
+  }
+}

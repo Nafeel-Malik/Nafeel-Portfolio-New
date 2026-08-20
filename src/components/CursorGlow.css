@@ -1,0 +1,39 @@
+.cursor-glow-root {
+  position: fixed;
+  inset: 0;
+  /* Above section backgrounds, below nav/UI — traces across every page. */
+  z-index: 15;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.cursor-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: min(70vw, 46rem);
+  height: min(70vw, 46rem);
+  background: radial-gradient(
+    circle,
+    rgba(0, 217, 255, 0.2) 0%,
+    rgba(0, 217, 255, 0.08) 32%,
+    transparent 68%
+  );
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.cursor-glow.is-live {
+  will-change: transform;
+}
+
+.cursor-glow.is-static {
+  opacity: 0.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-glow {
+    will-change: auto;
+  }
+}

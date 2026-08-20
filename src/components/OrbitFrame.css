@@ -1,0 +1,74 @@
+.orbit-frame {
+  --orbit-size: clamp(10.5rem, 22vw, 17.25rem);
+  position: relative;
+  display: grid;
+  width: var(--orbit-size);
+  height: var(--orbit-size);
+  max-width: 100%;
+  place-items: center;
+}
+
+.orbit-frame__ring {
+  position: absolute;
+  border: 1px solid rgba(0, 217, 255, 0.18);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.orbit-frame__ring--outer {
+  inset: 0;
+  border-style: dashed;
+  animation: orbit-ring 72s linear infinite;
+}
+
+.orbit-frame__ring--inner {
+  inset: 11%;
+  border-style: dashed;
+  border-color: rgba(0, 217, 255, 0.12);
+  animation: orbit-ring-reverse 96s linear infinite;
+}
+
+.orbit-frame__orbit {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  animation: orbit-spin 54s linear infinite;
+}
+
+.orbit-frame__dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.42rem;
+  height: 0.42rem;
+  background: var(--color-accent);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 217, 255, 0.9);
+  transform: translate(-50%, -50%) rotate(var(--orbit-angle))
+    translateX(calc(var(--orbit-size) / 2)) rotate(calc(-1 * var(--orbit-angle)));
+}
+
+@keyframes orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-ring {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-ring-reverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-frame__ring,
+  .orbit-frame__orbit {
+    animation: none;
+  }
+}
