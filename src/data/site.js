@@ -1,5 +1,5 @@
 /** Public path to avatar photo (served from /public). */
-export const avatarSrc = '/nafeel.jpg';
+export const avatarSrc = '/PassportSize-Nafeel-2.jpg';
 
 export const social = {
   email: 'maliknafeel16@gmail.com',
